@@ -9,7 +9,7 @@ count = 0
 print(page)
 
 soup = BeautifulSoup(page.content, "html.parser")
-lists = soup.find_all("article", class_="sc-a299b883-1")
+lists = soup.find_all("article", class_="sc-f56042d2-1")
 
 with open("releasing_movies_data.csv", 'w', encoding="utf8", newline="") as f:
 	typewriter = writer(f)

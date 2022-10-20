@@ -16,6 +16,6 @@ with open("iamge_urls.csv", 'w') as f:
     typewriter = writer(f);
     for img_source in image_data:
         ch = img_source['src'];
-        string = 'jksfhjbjd'.join(i for i in ch)
+        string = ''.join(i for i in ch)
         typewriter.writerow(string)
         print(type(img_source['src']))
