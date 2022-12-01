@@ -1,0 +1,75 @@
+<html>
+	<head>
+<style>
+	*{
+		margin: 0px;
+		padding: 0px;
+		box-sizing: border-box;
+	}
+	form{
+		display:grid;
+		width: 70%;
+		grid-template-columns: 50% 25% 25%;
+		border: 1px solid black;
+		height: auto;
+	}
+	input{
+		border: 1px solid grey;
+		border-radius: 10px;
+		height: 50px;
+	}
+	button{
+		grid-area: auto/ 1/ auto/ span 3;
+		height: 40px;
+		width: 100px;
+		margin: auto;
+		border-radius: 20px;
+		border: 1px solid black;
+	}
+</style>
+	</head>
+	<body>
+
+		<template id="template">
+			<input type=text name="item" id="1">
+			<input type="number" name="quntaty" id="2"> 
+			<input type="number" name="price" id="3">
+			<button type="submit" id="btn-submit" value="submit">create bill</button>
+		</template>
+
+		<form id="form" action="http://127.0.0.1:5000/create_bill" method="post">
+			<h1>Item - name</h1>
+			<h1>Quntaty</h1>
+			<h1>Price</h1>
+			<input type=text name="item-1">
+			<input type="number" name="quntaty-1"> 
+			<input id="p" type="number" name="price-1">
+			<button type="submit" id="btn-submit" value="submit">create bill</button>
+		</form>
+
+		<button style="background-color: black;color: white; font-size: 20px; padding: 10px; border: 1px solid grey; border-radius: 10px;" onclick="add()">+</button>
+		<script>
+			let form = document.getElementById("form");
+			let template = document.getElementById("template");
+			let count = 2;
+			function add(){
+				let btn = document.getElementById("btn-submit");
+				form.removeChild(btn);
+				node = document.getElementById("template");
+				cloned = node.content.cloneNode(true);
+				let item = cloned.getElementById("1");
+				let quntaty = cloned.getElementById("2");
+				let price = cloned.getElementById("3");
+
+				let str = count.toString();
+
+				item.setAttribute("name", ("item-"+str));
+				quntaty.setAttribute("name", ("quntaty-"+str));
+				price.setAttribute("name", ("price-"+str));
+				form.appendChild(cloned);
+
+				count+=1;
+			}
+		</script>
+	</body>
+</html>

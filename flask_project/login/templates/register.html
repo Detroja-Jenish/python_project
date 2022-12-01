@@ -1,0 +1,33 @@
+<html>
+	<head>
+		<style>
+			body{
+				display: flex;
+				justify-content: center;
+				background-color: rgb(225,225,225);
+			}
+
+			form{
+				display: grid;
+				width: 600px;
+				grid-template-columns: 1fr 3fr;
+				border: 1px solid black;
+			}
+			button{
+				grid-area: 4/ 1/ span 1/ span 2;
+			}
+		</style>
+	</head>
+	<body>
+		<form action="http://127.0.0.1:5000/register" method="post">
+			<label for="name">Name : </label>
+			<input type="text" name="user-name" placeholder="name" autofocus>
+			<label for="password">Password : </label>
+			<input type="password" placeholder="paswword" name="password" pattern="[a-z,0-9]{4}">
+			<label for="password">Confirm-Password : </label>
+			<input type="password" placeholder="re-enter-paswword" name="confirm-password" pattern="[a-z,0-9]{4}">
+			<button type="submit" value="register">Hoorey...!</button>
+
+		</form>
+	</body>
+</html>

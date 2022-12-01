@@ -1,0 +1,17 @@
+{
+    "Vagisha": {
+        "user-name": "Vagisha",
+        "user-password": "1212",
+        "src": "/statics/Vagisha.jpg"
+    },
+    "Jenish": {
+        "user-name": "Jenish",
+        "user-password": "2345",
+        "src": "/statics/Jenish.jpg"
+    },
+    "Vaidehi": {
+        "user-name": "Vaidehi",
+        "user-password": "9925",
+        "src": "/static/Vaidehi.jpg"
+    }
+}

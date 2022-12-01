@@ -1,0 +1,17 @@
+{
+    "1": {
+        "item": "apple",
+        "qntaty": "1",
+        "price": "120"
+    },
+    "2": {
+        "item": "mango",
+        "qntaty": "2",
+        "price": "150"
+    },
+    "3": {
+        "item": "orange",
+        "qntaty": "1",
+        "price": "50"
+    }
+}
