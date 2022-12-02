@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block style %}
+<style>
+table{
+	width: 90vw;
+	border: 1px solid black;
+	margin-bottom: 2vh;
+}
+tr:nth-child(odd){
+  background-color: rgb(200,200,200);
+}
+
+td{
+  width: 15vw;
+  border: 1px solid black;
+}
+td:first-child{
+  width: 60vw;
+}
+</style>
+{% endblock %}
+
+{% block body %}
+	
+	{% for BILL in ALL_BILL %}
+	<table>
+	  <th colspan="3"> {{ ALL_BILL.index(BILL) }} </th>
+	  {% for i in BILL %}
+	  <tr>
+		<td> {{ i.item }} </td>
+		<td> {{ i.quntaty }}</td>
+		<td> {{ i.price }} </td>
+	  </tr>
+	  {% endfor %}
+	</table>
+	{% endfor %}
+
+{% endblock %}
