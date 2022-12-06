@@ -115,5 +115,17 @@
             "quntaty": "6",
             "price": "5"
         }
+    ],
+    [
+        {
+            "item": "pakoda",
+            "quntaty": "2",
+            "price": "50"
+        },
+        {
+            "item": "dosa",
+            "quntaty": "1",
+            "price": "100"
+        }
     ]
 ]
