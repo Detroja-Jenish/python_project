@@ -30,12 +30,14 @@
 {% endblock %}
 {% block body %}
 
-{% set stock_report_link = "/stock_report?user=" + user %}
+{% set sell_report_link = "/sell_report?user=" + user %}
 {% set bill_page_link = "/bill?user=" + user %}
-{% set creat_bill_link = "http://127.0.0.1:5000/create_bill?user=" + user %}
+{% set stock_link = "/stock?user=" + user %}
+{% set create_bill_link = "http://127.0.0.1:5000/create_bill?user=" + user %}
 		<div class="links">
-	  		<a href= {{ stock_report_link }}>stock report</a>
+	  		<a href= {{ sell_report_link }}>sell report</a>
 	 		 <a href= {{ bill_page_link }} > make a bill </a>
+			 <a href={{ stock_link }} > stock </a>
 	</div>
 		<template id="template">
 			<input type=text name="item" id="1">
@@ -56,19 +58,25 @@
 
 		<button style="background-color: black;color: white; font-size: 20px; padding: 10px; border: 1px solid grey; border-radius: 10px;" onclick="add()">+</button>
 		<script>
-			let form = document.getElementById("form");
-			let template = document.getElementById("template");
-			let count = 2;
-			function add(){
-				let btn = document.getElementById("btn-submit");
-				form.removeChild(btn);
-				node = document.getElementById("template");
-				cloned = node.content.cloneNode(true);
-				let item = cloned.getElementById("1");
-				let quntaty = cloned.getElementById("2");
-				let price = cloned.getElementById("3");
+		  let user_name = "{{ user }}";
+		  let req = await fetch("http://127.0.0.1:5000/get_stock_data?user=" + user_name);
+		  let stock = await req.json();
+		  console.log(stock);
+		  
+		  console.log(user_name);
+		  let form = document.getElementById("form");
+		  let template = document.getElementById("template");
+		  let count = 2;
+		  function add(){
+			let btn = document.getElementById("btn-submit");
+			form.removeChild(btn);
+			node = document.getElementById("template");
+			cloned = node.content.cloneNode(true);
+			let item = cloned.getElementById("1");
+			let quntaty = cloned.getElementById("2");
+			let price = cloned.getElementById("3");
 
-				let str = count.toString();
+			let str = count.toString();
 
 				item.setAttribute("name", ("item-"+str));
 				quntaty.setAttribute("name", ("quntaty-"+str));

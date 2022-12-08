@@ -5,5 +5,24 @@
             "quntaty": "2",
             "price": "125000"
         }
+    ],
+    [
+        {
+            "item": "vadapav",
+            "quntaty": "1",
+            "price": "30"
+        },
+        {
+            "item": "these-chilli",
+            "quntaty": "2",
+            "price": "40"
+        }
+    ],
+    [
+        {
+            "item": "hello",
+            "quntaty": "1",
+            "price": "23"
+        }
     ]
 ]

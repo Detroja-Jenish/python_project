@@ -41,7 +41,6 @@ def login():
 @app.route("/signup",methods=["POST"])
 def signup():
     user_name = request.form.get("user-name")
-    print(name)
     password = request.form.get("password")
     confirm_password = request.form.get("confirm-password")
 
@@ -60,7 +59,11 @@ def signup():
         
         with open("./database/" + user_name.upper() + "/bill_data.json", 'w') as f:
         	json.dump([],f,indent=4)
-        return redirect("/bill?user=" + name)
+
+        with open("./database/" + user_name.upper() + "/stock.json", 'w') as f:
+        	json.dump({},f,indent=4)
+
+        return redirect("/bill?user=" + user_name)
 
     else:
         return redirect("/signup-form")
@@ -72,17 +75,43 @@ def bill_form():
     user_name = request.args.get("user")
     return render_template("bill.html", user=user_name)
 
+@app.route("/stock", methods=["GET", "POST"])
+def stock():
+    user_name = request.args.get("user")
+    stock = {}
+    
+    with open("./database/" + user_name.upper() + "/stock.json", 'r') as f:
+        stock = json.load(f)
+
+    for i in range (1, len(request.form)//3 + 1):
+        item =  request.form.get("item-" + str(i))
+        quntaty = request.form.get("quntaty-" + str(i))
+        price = request.form.get("price-" +str(i))
+        
+        stock[item] = {"item" : item, "quntaty" : quntaty, "price" : price}
+
 @app.route("/create_bill", methods=["GET", "POST"])
 def create_bill():
     user_name = request.args.get("user")
     this_bill = []
     all_bills = []
-    
+    stock = {}
+
+    with open("./database/" + user_name.upper() + "/stock.json", 'r') as f:
+        stock = json.load(f)
+
     with open("./database/" + user_name.upper() + "/bill_data.json", 'r') as f:
         all_bills = json.load(f)
 
     for i in range(1,math.floor(len(request.form)/3)+1):
-       this_bill.append({"item" : request.form.get("item-" + str(i)), "quntaty" : request.form.get("quntaty-" + str(i)), "price" : request.form.get("price-" +str(i))})
+        
+        item =  request.form.get("item-" + str(i))
+        quntaty = request.form.get("quntaty-" + str(i))
+        price = request.form.get("price-" +str(i))
+        amount = int(price)*int(quntaty)
+        
+       # stock[item][quntaty] -= quntaty
+        this_bill.append({"item" : item, "quntaty" : quntaty, "price" : price, "amount" : amount})
 
     all_bills.append(this_bill);
 
@@ -91,9 +120,19 @@ def create_bill():
 
     return redirect("/bill?user="+user_name)
 
-@app.route("/stock_report")
-def stock_report():
+@app.route("/sell_report")
+def sell_report():
     user_name = request.args.get("user")
     with open("./database/" + user_name.upper() + "/bill_data.json", 'r') as f:
         all_bills = json.load(f)
-    return render_template("stock_report.html", ALL_BILL=all_bills, user=user_name);
+    return render_template("sell_report.html", ALL_BILLS=all_bills, user=user_name);
+    #return ("Hello")
+
+@app.route("/get_stock_data")
+def give_stock_data():
+    user_name = request.args.get("user")
+    stock = {}
+    with open("./database/" + user_name.upper() + "/stock.json", 'r') as f:
+        stock = json.load(f)
+
+    return (stock)

@@ -25,16 +25,16 @@
 
 {% block body %}
 
-{% set stock_report_link = "/stock_report?user=" + user %}
-{% set creat_bill_link = "/stock_report?user=" + user %}
+{% set sell_report_link = "/sell_report?user=" + user %}
+{% set create_bill_link = "/bill?user=" + user %}
 		<div class="links">
-	  		<a href= {{ stock_report_link }}>stock report</a>
+	  		<a href= {{ sell_report_link }}>sell report</a>
 	 		 <a href= {{ create_bill_link }} > make a bill </a>
 	</div>
 	
-	{% for BILL in ALL_BILL %}
+	{% for BILL in ALL_BILLS%}
 	<table>
-	  <th colspan="3"> {{ ALL_BILL.index(BILL) }} </th>
+	  <th colspan="3"> {{ ALL_BILLS.index(BILL) }} </th>
 	  {% for i in BILL %}
 	  <tr>
 		<td> {{ i.item }} </td>
