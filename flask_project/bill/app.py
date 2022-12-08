@@ -14,6 +14,7 @@ users = {}
 @app.route("/")
 def index():
     return render_template("index.html")
+    
 @app.route("/signup-form")
 def signup_form():
     return render_template("signup.html")
@@ -27,19 +28,19 @@ def login():
     with open("./database/users.json", 'r') as f:
         users = json.load(f);
     
-    name = request.form.get("user-name")
+    user_name = request.form.get("user-name")
     password = request.form.get("password")
 
-    if name in users and password == users[name]:
-        return redirect("/bill")
+    if user_name in users and password == users[user_name]:
+        return redirect("/bill?user=" + user_name)
     else:
-        print(name)
+        pass
 
         return redirect("/login-fom")
 
 @app.route("/signup",methods=["POST"])
 def signup():
-    name = request.form.get("user-name")
+    user_name = request.form.get("user-name")
     print(name)
     password = request.form.get("password")
     confirm_password = request.form.get("confirm-password")
@@ -49,12 +50,16 @@ def signup():
         with open("./database/users.json", 'r') as f:
             users = json.load(f);
 
-        users[name] = password;
+        users[user_name] = password;
         print(users)
 
         with open("./database/users.json", 'w') as f:
             json.dump(users,f)
-        mkdir("./database/"+name)
+            
+        mkdir("./database/"+user_name.upper())
+        
+        with open("./database/" + user_name.upper() + "/bill_data.json", 'w') as f:
+        	json.dump([],f,indent=4)
         return redirect("/bill?user=" + name)
 
     else:
@@ -64,27 +69,31 @@ def signup():
 
 @app.route("/bill")
 def bill_form():
-    return render_template("bill.html")
+    user_name = request.args.get("user")
+    return render_template("bill.html", user=user_name)
 
 @app.route("/create_bill", methods=["GET", "POST"])
 def create_bill():
-    with open("./database/bill_data.json", 'r') as f:
-        all_bill = json.load(f)
-
-    ths_bill = []
+    user_name = request.args.get("user")
+    this_bill = []
+    all_bills = []
+    
+    with open("./database/" + user_name.upper() + "/bill_data.json", 'r') as f:
+        all_bills = json.load(f)
 
     for i in range(1,math.floor(len(request.form)/3)+1):
        this_bill.append({"item" : request.form.get("item-" + str(i)), "quntaty" : request.form.get("quntaty-" + str(i)), "price" : request.form.get("price-" +str(i))})
 
-    all_bill.append(this_bill);
+    all_bills.append(this_bill);
 
-    with open("./database/bill_data.json", 'w') as f:
-       json.dump(all_bill, f, indent=4)
+    with open("./database/" + user_name.upper() + "/bill_data.json", 'w') as f:
+       json.dump(all_bills, f, indent=4)
 
-    return redirect("/index")
+    return redirect("/bill?user="+user_name)
 
 @app.route("/stock_report")
 def stock_report():
-    with open("./database/bill_data.json", 'r') as f:
-        bill_data = json.load(f);
-    return render_template("stock_report.html", ALL_BILL=bill_data);
+    user_name = request.args.get("user")
+    with open("./database/" + user_name.upper() + "/bill_data.json", 'r') as f:
+        all_bills = json.load(f)
+    return render_template("stock_report.html", ALL_BILL=all_bills, user=user_name);

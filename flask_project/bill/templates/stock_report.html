@@ -24,6 +24,13 @@
 {% endblock %}
 
 {% block body %}
+
+{% set stock_report_link = "/stock_report?user=" + user %}
+{% set creat_bill_link = "/stock_report?user=" + user %}
+		<div class="links">
+	  		<a href= {{ stock_report_link }}>stock report</a>
+	 		 <a href= {{ create_bill_link }} > make a bill </a>
+	</div>
 	
 	{% for BILL in ALL_BILL %}
 	<table>

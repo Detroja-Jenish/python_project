@@ -29,6 +29,14 @@
 </style>
 {% endblock %}
 {% block body %}
+
+{% set stock_report_link = "/stock_report?user=" + user %}
+{% set bill_page_link = "/bill?user=" + user %}
+{% set creat_bill_link = "http://127.0.0.1:5000/create_bill?user=" + user %}
+		<div class="links">
+	  		<a href= {{ stock_report_link }}>stock report</a>
+	 		 <a href= {{ bill_page_link }} > make a bill </a>
+	</div>
 		<template id="template">
 			<input type=text name="item" id="1">
 			<input type="number" name="quntaty" id="2"> 
@@ -36,7 +44,7 @@
 			<button type="submit" id="btn-submit" value="submit">create bill</button>
 		</template>
 
-		<form id="form" action="http://127.0.0.1:5000/create_bill" method="post">
+		<form id="form" action={{ create_bill_link }} method="post">
 			<h1>Item - name</h1>
 			<h1>Quntaty</h1>
 			<h1>Price</h1>
