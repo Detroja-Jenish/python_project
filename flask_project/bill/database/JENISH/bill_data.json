@@ -17,5 +17,63 @@
             "quntaty": "12",
             "price": "800000"
         }
+    ],
+    [
+        {
+            "item": "pen",
+            "quntaty": "1",
+            "price": "20",
+            "amount": 20
+        }
+    ],
+    [
+        {
+            "item": "and",
+            "quntaty": "1",
+            "price": "1",
+            "amount": 1
+        }
+    ],
+    [
+        {
+            "item": "1",
+            "quntaty": "2",
+            "price": "2",
+            "amount": 4
+        }
+    ],
+    [
+        {
+            "item": "d",
+            "quntaty": "08",
+            "price": "7",
+            "amount": 56
+        }
+    ],
+    [
+        {
+            "item": "book",
+            "quntaty": "1",
+            "price": "40",
+            "amount": 40
+        },
+        {
+            "item": "pen",
+            "quntaty": "5",
+            "price": "25",
+            "amount": 125
+        },
+        {
+            "item": "pencil(2h)",
+            "quntaty": "1",
+            "price": "6",
+            "amount": 6
+        },
+        {
+            "item": "pencil(6h)",
+            "quntaty": "1",
+            "price": "6",
+            "amount": 6
+        }
     ]
 ]

@@ -6,18 +6,6 @@
   padding: 0px;
   box-sizing: border-box;
 }
-	form{
-	  display:grid;
-	  width: 70%;
-	  grid-template-columns: 50% 25% 25%;
-	  border: 1px solid black;
-	  height: auto;
-	}
-	input{
-	  border: 1px solid grey;
-	  border-radius: 10px;
-	  height: 50px;
-	}
 	button{
 	  grid-area: auto/ 1/ auto/ span 3;
 	  height: 40px;
@@ -34,56 +22,62 @@
 {% set bill_page_link = "/bill?user=" + user %}
 {% set stock_link = "/stock?user=" + user %}
 {% set create_bill_link = "http://127.0.0.1:5000/create_bill?user=" + user %}
-		<div class="links">
-	  		<a href= {{ sell_report_link }}>sell report</a>
-	 		 <a href= {{ bill_page_link }} > make a bill </a>
-			 <a href={{ stock_link }} > stock </a>
+<div class="links">
+	<a href= {{ sell_report_link }}>sell report</a>
+	<a href= {{ bill_page_link }} > make a bill </a>
+	<a href={{ stock_link }} > stock </a>
+</div>
+<template id="template">
+	<div class="form-group">
+		<div class="row">
+			<input class="col-8" type=text name="item" id="1">
+			<input class="col-2" type="number" name="quntaty" id="2"> 
+			<input class="col-2" type="number" name="price" id="3">
+		</div>
 	</div>
-		<template id="template">
-			<input type=text name="item" id="1">
-			<input type="number" name="quntaty" id="2"> 
-			<input type="number" name="price" id="3">
-			<button type="submit" id="btn-submit" value="submit">create bill</button>
-		</template>
 
-		<form id="form" action={{ create_bill_link }} method="post">
-			<h1>Item - name</h1>
-			<h1>Quntaty</h1>
-			<h1>Price</h1>
-			<input type=text name="item-1">
-			<input type="number" name="quntaty-1"> 
-			<input id="p" type="number" name="price-1">
-			<button type="submit" id="btn-submit" value="submit">create bill</button>
-		</form>
+	<button type="submit" id="btn-submit" value="submit">create bill</button>
+</template>
 
-		<button style="background-color: black;color: white; font-size: 20px; padding: 10px; border: 1px solid grey; border-radius: 10px;" onclick="add()">+</button>
-		<script>
-		  let user_name = "{{ user }}";
-		  let req = await fetch("http://127.0.0.1:5000/get_stock_data?user=" + user_name);
-		  let stock = await req.json();
-		  console.log(stock);
-		  
-		  console.log(user_name);
-		  let form = document.getElementById("form");
-		  let template = document.getElementById("template");
-		  let count = 2;
-		  function add(){
-			let btn = document.getElementById("btn-submit");
-			form.removeChild(btn);
-			node = document.getElementById("template");
-			cloned = node.content.cloneNode(true);
-			let item = cloned.getElementById("1");
-			let quntaty = cloned.getElementById("2");
-			let price = cloned.getElementById("3");
+<form class="container-md" id="form" action={{ create_bill_link }} method="post">
+	<h1>Item - name</h1>
+	<h1>Quntaty</h1>
+	<h1>Price</h1>
+	<div class="form-group">
+		<div class="row">
+			<input type="text" class="col-8 " name="item-1">
+			<input type="number" class="col-2" name="quntaty-1"> 
+			<input id="p" type="number" class="col-2" name="price-1">
+		</div>
+	</div>
+	<button type="submit" id="btn-submit" value="submit">create bill</button>
+</form>
 
-			let str = count.toString();
+<button id="add-row" style="background-color: black;color: white; font-size: 20px; padding: 10px; border: 1px solid grey; border-radius: 10px;">+</button>
+<script>
+	let form = document.getElementById("form");
+	let template = document.getElementById("template");
+	let add_row = document.getElementById("add-row");
+	let count = 2;
+	function add(){
+		let clear_btn = document.getElementById("btn-submit");
+		form.removeChild(clear_btn);
+		node = document.getElementById("template");
+		cloned = node.content.cloneNode(true);
+		let item = cloned.getElementById("1");
+		let quntaty = cloned.getElementById("2");
+		let price = cloned.getElementById("3");
 
-				item.setAttribute("name", ("item-"+str));
-				quntaty.setAttribute("name", ("quntaty-"+str));
-				price.setAttribute("name", ("price-"+str));
-				form.appendChild(cloned);
+		let str = count.toString();
 
-				count+=1;
-			}
-	  </script>
+		item.setAttribute("name", ("item-"+str));
+		quntaty.setAttribute("name", ("quntaty-"+str));
+		price.setAttribute("name", ("price-"+str));
+		form.appendChild(cloned);
+
+		count+=1;
+		console.log("hi");
+	}
+	add_row.addEventListener("click", add);
+</script>
 {% endblock %}
