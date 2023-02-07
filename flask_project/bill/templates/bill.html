@@ -32,7 +32,7 @@
 		<div class="row">
 			<input class="col-8" type=text name="item" id="1">
 			<input class="col-2" type="number" name="quntaty" id="2"> 
-			<input class="col-2" type="number" name="price" id="3">
+			<input class="col-2 add-row" type="number" name="price" id="3">
 		</div>
 	</div>
 
@@ -47,7 +47,7 @@
 		<div class="row">
 			<input type="text" class="col-8 " name="item-1">
 			<input type="number" class="col-2" name="quntaty-1"> 
-			<input id="p" type="number" class="col-2" name="price-1">
+			<input id="p" type="number" class="col-2 add-row" name="price-1">
 		</div>
 	</div>
 	<button type="submit" id="btn-submit" value="submit">create bill</button>
@@ -57,9 +57,11 @@
 <script>
 	let form = document.getElementById("form");
 	let template = document.getElementById("template");
-	let add_row = document.getElementById("add-row");
+	let add_row = document.getElementsByClassName("add-row");
 	let count = 2;
+
 	function add(){
+		
 		let clear_btn = document.getElementById("btn-submit");
 		form.removeChild(clear_btn);
 		node = document.getElementById("template");
@@ -77,7 +79,13 @@
 
 		count+=1;
 		console.log("hi");
+
+
+	add_row[add_row.length - 1].addEventListener("input", add);
+		add_row[add_row.length - 2].removeEventListener("input", add);
+		console.log(add_row.length);
 	}
-	add_row.addEventListener("click", add);
+
+	add_row[add_row.length - 1].addEventListener("input", add);
 </script>
 {% endblock %}

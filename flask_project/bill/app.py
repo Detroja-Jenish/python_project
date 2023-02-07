@@ -4,7 +4,7 @@ from flask import Flask, render_template, redirect, request
 import json
 import math
 from os import mkdir
-
+from pdf import mypdf
 app = Flask("__name__")
 
 all_bill = []
@@ -104,16 +104,20 @@ def create_bill():
         all_bills = json.load(f)
 
     for i in range(1,math.floor(len(request.form)/3)+1):
-        
-        item =  request.form.get("item-" + str(i))
-        quntaty = request.form.get("quntaty-" + str(i))
-        price = request.form.get("price-" +str(i))
-        amount = int(price)*int(quntaty)
-        
+        if( request.form.get("quntaty-" + str(i))!= ""):
+            item =  request.form.get("item-" + str(i))
+            quntaty = request.form.get("quntaty-" + str(i))
+            price = request.form.get("price-" +str(i))
+            amount = int(price)*int(quntaty);
+
        # stock[item][quntaty] -= quntaty
-        this_bill.append({"item" : item, "quntaty" : quntaty, "price" : price, "amount" : amount})
+        this_bill.append({"item" : item, "quntaty" : quntaty, "price" : price, "amount" : str(amount)})
 
     all_bills.append(this_bill);
+    cb = mypdf();
+    cb.write(this_bill);
+    cb.save(user_name.upper());
+
 
     with open("./database/" + user_name.upper() + "/bill_data.json", 'w') as f:
        json.dump(all_bills, f, indent=4)

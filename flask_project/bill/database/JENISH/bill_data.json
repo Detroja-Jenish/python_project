@@ -75,5 +75,101 @@
             "price": "6",
             "amount": 6
         }
+    ],
+    [
+        {
+            "item": "car1",
+            "quntaty": "1",
+            "price": "1829",
+            "amount": 1829
+        }
+    ],
+    [
+        {
+            "item": "adds",
+            "quntaty": "1",
+            "price": "12"
+        },
+        {
+            "item": "",
+            "quntaty": "",
+            "price": ""
+        }
+    ],
+    [
+        {
+            "item": "car1",
+            "quntaty": "1",
+            "price": "500000"
+        },
+        {
+            "item": "car2",
+            "quntaty": "2",
+            "price": "600000"
+        },
+        {
+            "item": "bike",
+            "quntaty": "3",
+            "price": "50000"
+        },
+        {
+            "item": "",
+            "quntaty": "",
+            "price": ""
+        }
+    ],
+    [
+        {
+            "item": "hi1",
+            "quntaty": "1",
+            "price": "1",
+            "amount": 1
+        },
+        {
+            "item": "hi1",
+            "quntaty": "1",
+            "price": "1",
+            "amount": 1
+        }
+    ],
+    [
+        {
+            "item": "ada",
+            "quntaty": "1",
+            "price": "30",
+            "amount": 30
+        },
+        {
+            "item": "ada",
+            "quntaty": "1",
+            "price": "30",
+            "amount": 30
+        }
+    ],
+    [
+        {
+            "item": "alto",
+            "quntaty": "1",
+            "price": "400000",
+            "amount": "400000"
+        },
+        {
+            "item": "i10",
+            "quntaty": "3",
+            "price": "600000",
+            "amount": "1800000"
+        },
+        {
+            "item": "bike",
+            "quntaty": "2",
+            "price": "45400",
+            "amount": "90800"
+        },
+        {
+            "item": "bike",
+            "quntaty": "2",
+            "price": "45400",
+            "amount": "90800"
+        }
     ]
 ]
