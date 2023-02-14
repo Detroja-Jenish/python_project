@@ -1,0 +1,27 @@
+{% block style %}
+{% endblock %}
+{% block body %}
+{% set add_customer_link = "/addCustomerToDatabase?user=" + user %}
+<form action={{ add_customer_link }} method="post">
+	<div class="form-group">
+		<input type="text" name="companyName" class="form-controll" placeholder="Comany Name"/>" 
+	</div>
+	<div class="form-group">
+		<input type="text" name="building-no" placeholder="Building-no" class="form-controll">
+	</div>
+	<div class="form-group">
+		<input type="text" name="street" placeholder="Street" class="form-controll">
+	</div>
+	<div class="form-group">
+		<input type="text" name="landMark" placeholder="land Mark" class="form-controll">
+	</div>
+	<div class="form-group">
+		<input type="text" name="zipCode" placeholder="Zip code" class="form-controll">
+	</div>
+	<div class="form-group">
+		<input type="text" name="state" placeholder="state" class="form-controll">
+	</div>
+	<button type="submit">
+
+</form>
+{% endblock %}

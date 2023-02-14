@@ -140,3 +140,29 @@ def give_stock_data():
         stock = json.load(f)
 
     return (stock)
+
+@app.route("/addCustomer")
+def addCustomer():
+    user_name = request.args.get("user")
+    return render_template("addCustomer.html", user=user_name)
+
+@app.route("/addCustomerToDatabase", methods=["GET","POST"])
+def addCustomerToDatabase():
+    user_name = request.args.get("user")
+    with open("./database/" + user_name.upper() + "/customerAddress.json", 'r') as f:
+        all_address = json.load(f);
+
+    cName = request.form.get("companyName");
+    Building_no= request.form.get("building-no")
+    street = request.form.get("street")
+    landMark= request.form.get("landMark")
+    zipCode = request.form.get("zipCode")
+    state = request.form.get("state")
+    new_address = [ cName, Building_no, street, landMark, zipCode, state]
+    all_address.append( new_address )
+
+    with open("./database/" + user_name.upper() + "/customerAddress.json", 'w') as f:
+        json.dump(all_address, f)
+    print(new_address)
+    print(type(new_address))
+    return redirect("addCustomer?user="+user_name)
