@@ -171,5 +171,25 @@
             "price": "45400",
             "amount": "90800"
         }
+    ],
+    [
+        {
+            "item": "laptop",
+            "quntaty": "1",
+            "price": "23000",
+            "amount": "23000"
+        },
+        {
+            "item": "car",
+            "quntaty": "2",
+            "price": "400000",
+            "amount": "800000"
+        },
+        {
+            "item": "car",
+            "quntaty": "2",
+            "price": "400000",
+            "amount": "800000"
+        }
     ]
 ]

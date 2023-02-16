@@ -73,7 +73,10 @@ def signup():
 @app.route("/bill")
 def bill_form():
     user_name = request.args.get("user")
-    return render_template("bill.html", user=user_name)
+
+    with open("./database/" + user_name.upper() + "/customerAddress.json", 'r') as f:
+        customers_ = json.load(f).keys();
+    return render_template("bill.html", user=user_name, customers = customers_)
 
 @app.route("/stock", methods=["GET", "POST"])
 def stock():
@@ -158,11 +161,12 @@ def addCustomerToDatabase():
     landMark= request.form.get("landMark")
     zipCode = request.form.get("zipCode")
     state = request.form.get("state")
-    new_address = [ cName, Building_no, street, landMark, zipCode, state]
-    all_address.append( new_address )
+    all_address[cName] = [ cName, Building_no, street, landMark, zipCode, state]
+    #all_address.append( new_address )
 
     with open("./database/" + user_name.upper() + "/customerAddress.json", 'w') as f:
-        json.dump(all_address, f)
-    print(new_address)
-    print(type(new_address))
+        json.dump(all_address, f, indent=4)
+    #print(new_address)
+    #print(type(new_address))
+    print(all_address);
     return redirect("addCustomer?user="+user_name)
