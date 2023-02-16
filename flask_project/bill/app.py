@@ -112,14 +112,14 @@ def create_bill():
             quntaty = request.form.get("quntaty-" + str(i))
             price = request.form.get("price-" +str(i))
             amount = int(price)*int(quntaty);
-
+        
        # stock[item][quntaty] -= quntaty
         this_bill.append({"item" : item, "quntaty" : quntaty, "price" : price, "amount" : str(amount)})
-
+    this_bill.append({"customerName" : request.form.get("customerName")})
     all_bills.append(this_bill);
-    cb = mypdf();
-    cb.write(this_bill);
-    cb.save(user_name.upper());
+    #cb = mypdf();
+    #cb.write(this_bill);
+    #cb.save(user_name.upper());
 
 
     with open("./database/" + user_name.upper() + "/bill_data.json", 'w') as f:
