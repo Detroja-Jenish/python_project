@@ -97,7 +97,7 @@ def stock():
 def create_bill():
     user_name = request.args.get("user")
     this_bill = []
-    all_bills = []
+    all_bills = {}
     stock = {}
 
     with open("./database/" + user_name.upper() + "/stock.json", 'r') as f:
@@ -105,8 +105,10 @@ def create_bill():
 
     with open("./database/" + user_name.upper() + "/bill_data.json", 'r') as f:
         all_bills = json.load(f)
+        print(all_bills)
 
     for i in range(1,math.floor(len(request.form)/3)+1):
+        
         if( request.form.get("quntaty-" + str(i))!= ""):
             item =  request.form.get("item-" + str(i))
             quntaty = request.form.get("quntaty-" + str(i))
@@ -114,16 +116,22 @@ def create_bill():
             amount = int(price)*int(quntaty);
         
        # stock[item][quntaty] -= quntaty
-        this_bill.append({"item" : item, "quntaty" : quntaty, "price" : price, "amount" : str(amount)})
-    this_bill.append({"customerName" : request.form.get("customerName")})
-    all_bills.append(this_bill);
+            this_bill.append({"item" : item, "quntaty" : quntaty, "price" : price, "amount" : str(amount)})
+    if (request.form.get("customerName") == None):
+        try:
+            all_bills["Annoyers"].append(this_bill);
+        except:
+            all_bills["Annoyers"] = [this_bill];
+    else:
+        all_bills[request.form.get("customerName")].append(this_bill);
     #cb = mypdf();
     #cb.write(this_bill);
     #cb.save(user_name.upper());
 
 
     with open("./database/" + user_name.upper() + "/bill_data.json", 'w') as f:
-       json.dump(all_bills, f, indent=4)
+        print(all_bills)
+        json.dump(all_bills, f, indent=4)
 
     return redirect("/bill?user="+user_name)
 
@@ -132,7 +140,7 @@ def sell_report():
     user_name = request.args.get("user")
     with open("./database/" + user_name.upper() + "/bill_data.json", 'r') as f:
         all_bills = json.load(f)
-    return render_template("sell_report.html", ALL_BILLS=all_bills, user=user_name);
+    return render_template("sell_report.html", CUSTOMERS =  all_bills.keys(),ALL_BILLS=all_bills, user=user_name);
     #return ("Hello")
 
 @app.route("/get_stock_data")
@@ -166,6 +174,12 @@ def addCustomerToDatabase():
 
     with open("./database/" + user_name.upper() + "/customerAddress.json", 'w') as f:
         json.dump(all_address, f, indent=4)
+    with open("./database/" + user_name.upper() + "/bill_data.json", 'r') as f:
+        all_bills = json.load(f);
+        all_bills[cName] = [];
+
+    with open("./database/" + user_name.upper() + "/bill_data.json", 'w') as f:
+        json.dump(all_bills, f, indent=4)
     #print(new_address)
     #print(type(new_address))
     print(all_address);

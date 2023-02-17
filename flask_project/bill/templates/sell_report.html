@@ -27,22 +27,37 @@
 
 {% set sell_report_link = "/sell_report?user=" + user %}
 {% set create_bill_link = "/bill?user=" + user %}
-		<div class="links">
-	  		<a href= {{ sell_report_link }}>sell report</a>
-	 		 <a href= {{ create_bill_link }} > make a bill </a>
-	</div>
-	
-	{% for BILL in ALL_BILLS%}
-	<table>
-	  <th colspan="3"> {{ ALL_BILLS.index(BILL) }} </th>
-	  {% for i in BILL %}
-	  <tr>
-		<td> {{ i.item }} </td>
-		<td> {{ i.quntaty }}</td>
-		<td> {{ i.price }} </td>
-	  </tr>
-	  {% endfor %}
-	</table>
-	{% endfor %}
+<div class="links">
+	<a href= {{ sell_report_link }}>sell report</a>
+	<a href= {{ create_bill_link }} > make a bill </a>
+</div>
+{% set TARGET = "" %}
+{% for customer in CUSTOMERS %}
+{% set TARGET = TARGET + customer + " " %}
+{% endfor %}
 
+{% for customer in CUSTOMERS %}
+{% set customer_id = "#" + customer %}
+<div>
+	<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target= {{ customer_id }} aria-expanded="false" aria-controls={{ customer }}>{{ customer }}</button>
+</div>
+<div class="container-md collapse multi-collapse" id = {{ customer }}>
+	{% for BILLS in ALL_BILLS[customer] %}
+	<div class="container-fluid mb-5">
+	{% for i in BILLS %}
+		<div class="row">
+			<div class="col-6"> {{ i.item }} </div>
+			<div class="col-2"> {{ i.quntaty }}</div>
+			<div class="col-2"> {{ i.price }} </div>
+			<div class="col-2"> {{ i.amount }} </div>
+		</div>
+	{% endfor %}
+	</div>
+	{% endfor %}
+</div>
+{% endfor %}
+<script>
+	let btn = document.getElementsByClassName("btn");
+	let TARGET = "";
+</script>
 {% endblock %}

@@ -1,66 +1,67 @@
-[
-    [
-        {
-            "item": "pen",
-            "quntaty": "10",
-            "price": "5",
-            "amount": "50"
-        },
-        {
-            "item": "pencil",
-            "quntaty": "5",
-            "price": "5",
-            "amount": "25"
-        },
-        {
-            "item": "pouch",
-            "quntaty": "1",
-            "price": "90",
-            "amount": "90"
-        },
-        {
-            "item": "eraser",
-            "quntaty": "1",
-            "price": "10",
-            "amount": "10"
-        },
-        {
-            "item": "eraser",
-            "quntaty": "1",
-            "price": "10",
-            "amount": "10"
-        }
+{
+    "Annoyers": [
+        [
+            {
+                "item": "pen1",
+                "quntaty": "10",
+                "price": "20",
+                "amount": "200"
+            }
+        ],
+        [
+            {
+                "item": "prdxf",
+                "quntaty": "2",
+                "price": "23",
+                "amount": "46"
+            }
+        ]
     ],
-    [
-        {
-            "item": "pen",
-            "quntaty": "10",
-            "price": "5",
-            "amount": "50"
-        },
-        {
-            "item": "pencil",
-            "quntaty": "5",
-            "price": "5",
-            "amount": "25"
-        },
-        {
-            "item": "pouch",
-            "quntaty": "1",
-            "price": "90",
-            "amount": "90"
-        },
-        {
-            "item": "eraser",
-            "quntaty": "1",
-            "price": "10",
-            "amount": "10"
-        },
-        {
-            "item": "eraser",
-            "quntaty": "1",
-            "price": "10",
-            "amount": "10"
-        }
+    "Jenish": [
+        [
+            {
+                "item": "mobile",
+                "quntaty": "1",
+                "price": "20000",
+                "amount": "20000"
+            },
+            {
+                "item": "laptop",
+                "quntaty": "1",
+                "price": "76499",
+                "amount": "76499"
+            }
+        ]
+    ],
+    "hilag": [],
+    "Kahan": [
+        [
+            {
+                "item": "dosa",
+                "quntaty": "3",
+                "price": "90",
+                "amount": "270"
+            },
+            {
+                "item": "pizza",
+                "quntaty": "2",
+                "price": "180",
+                "amount": "360"
+            },
+            {
+                "item": "pani puri",
+                "quntaty": "4",
+                "price": "20",
+                "amount": "80"
+            }
+        ],
+        [
+            {
+                "item": "sassed",
+                "quntaty": "1",
+                "price": "1",
+                "amount": "1"
+            }
+        ]
     ]
-]
+}
