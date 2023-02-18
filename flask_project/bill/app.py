@@ -5,11 +5,9 @@ import json
 import math
 from os import mkdir
 from pdf import mypdf
-app = Flask("__name__")
+from MyDb import MyDatabase
 
-all_bill = []
-this_bill = []
-users = {} 
+app = Flask("__name__")
 
 @app.route("/")
 def index():
@@ -45,38 +43,19 @@ def signup():
     confirm_password = request.form.get("confirm-password")
 
     if password == confirm_password:
-
-        with open("./database/users.json", 'r') as f:
-            users = json.load(f);
-
-        users[user_name] = password;
-        print(users)
-
-        with open("./database/users.json", 'w') as f:
-            json.dump(users,f)
-            
-        mkdir("./database/"+user_name.upper())
-        
-        with open("./database/" + user_name.upper() + "/bill_data.json", 'w') as f:
-        	json.dump([],f,indent=4)
-
-        with open("./database/" + user_name.upper() + "/stock.json", 'w') as f:
-        	json.dump({},f,indent=4)
-
+        db = MyDatabase("");
+        db.signUpSetup(user_name, password);
         return redirect("/bill?user=" + user_name)
 
-    else:
-        return redirect("/signup-form")
+    return redirect("/signup-form")
     
         
 
 @app.route("/bill")
 def bill_form():
-    user_name = request.args.get("user")
-
-    with open("./database/" + user_name.upper() + "/customerAddress.json", 'r') as f:
-        customers_ = json.load(f).keys();
-    return render_template("bill.html", user=user_name, customers = customers_)
+    user_name = request.args.get("user");
+    db = MyDatabase( user_name );
+    return render_template("bill.html", user=user_name, customers = db.getOnlyCustomerName());
 
 @app.route("/stock", methods=["GET", "POST"])
 def stock():
@@ -95,17 +74,11 @@ def stock():
 
 @app.route("/create_bill", methods=["GET", "POST"])
 def create_bill():
+    #stock is baki for implitation
+   
     user_name = request.args.get("user")
-    this_bill = []
-    all_bills = {}
-    stock = {}
-
-    with open("./database/" + user_name.upper() + "/stock.json", 'r') as f:
-        stock = json.load(f)
-
-    with open("./database/" + user_name.upper() + "/bill_data.json", 'r') as f:
-        all_bills = json.load(f)
-        print(all_bills)
+    db = MyDatabase(user_name);
+    this_bill = [];
 
     for i in range(1,math.floor(len(request.form)/3)+1):
         
@@ -115,33 +88,23 @@ def create_bill():
             price = request.form.get("price-" +str(i))
             amount = int(price)*int(quntaty);
         
-       # stock[item][quntaty] -= quntaty
             this_bill.append({"item" : item, "quntaty" : quntaty, "price" : price, "amount" : str(amount)})
-    if (request.form.get("customerName") == None):
-        try:
-            all_bills["Annoyers"].append(this_bill);
-        except:
-            all_bills["Annoyers"] = [this_bill];
-    else:
-        all_bills[request.form.get("customerName")].append(this_bill);
-    #cb = mypdf();
-    #cb.write(this_bill);
-    #cb.save(user_name.upper());
 
-
-    with open("./database/" + user_name.upper() + "/bill_data.json", 'w') as f:
-        print(all_bills)
-        json.dump(all_bills, f, indent=4)
+    customerName = request.form.get("customerName");
+    if(customerName == None or customerName == ""):
+        customerName = "Anonymous";
+    db.updateBillData(this_bill, customerName);
+    cb = mypdf();
+    cb.write(this_bill, user_name.upper());
 
     return redirect("/bill?user="+user_name)
 
 @app.route("/sell_report")
 def sell_report():
     user_name = request.args.get("user")
-    with open("./database/" + user_name.upper() + "/bill_data.json", 'r') as f:
-        all_bills = json.load(f)
-    return render_template("sell_report.html", CUSTOMERS =  all_bills.keys(),ALL_BILLS=all_bills, user=user_name);
-    #return ("Hello")
+    db = MyDatabase( user_name );
+
+    return render_template("sell_report.html", CUSTOMERS = db.getCustomers(), ALL_BILLS = db.getBills(), user=user_name);
 
 @app.route("/get_stock_data")
 def give_stock_data():
@@ -160,8 +123,8 @@ def addCustomer():
 @app.route("/addCustomerToDatabase", methods=["GET","POST"])
 def addCustomerToDatabase():
     user_name = request.args.get("user")
-    with open("./database/" + user_name.upper() + "/customerAddress.json", 'r') as f:
-        all_address = json.load(f);
+    
+    db = MyDatabase( user_name );
 
     cName = request.form.get("companyName");
     Building_no= request.form.get("building-no")
@@ -169,18 +132,6 @@ def addCustomerToDatabase():
     landMark= request.form.get("landMark")
     zipCode = request.form.get("zipCode")
     state = request.form.get("state")
-    all_address[cName] = [ cName, Building_no, street, landMark, zipCode, state]
-    #all_address.append( new_address )
 
-    with open("./database/" + user_name.upper() + "/customerAddress.json", 'w') as f:
-        json.dump(all_address, f, indent=4)
-    with open("./database/" + user_name.upper() + "/bill_data.json", 'r') as f:
-        all_bills = json.load(f);
-        all_bills[cName] = [];
-
-    with open("./database/" + user_name.upper() + "/bill_data.json", 'w') as f:
-        json.dump(all_bills, f, indent=4)
-    #print(new_address)
-    #print(type(new_address))
-    print(all_address);
+    db.addCustomer(cName, [ cName, Building_no, street, landMark, zipCode, state] );
     return redirect("addCustomer?user="+user_name)

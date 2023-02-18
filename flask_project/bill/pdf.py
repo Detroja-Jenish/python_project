@@ -4,7 +4,7 @@ class mypdf(FPDF):
     cursor = 0;
     font_size = 16;
     total = 0;
-    def write(self,bill):
+    def write(self,bill, folder_name):
         self.add_page();
         self.set_font("helvetica", "B", 16);
         self.cell(70, self.font_size, "product", 1);
@@ -22,6 +22,5 @@ class mypdf(FPDF):
 
         self.cell(140, self.font_size, "TOTAL = ", 1);
         self.cell(50, self.font_size, str(self.total), 1);
-		
-    def save(self,folder_name):
         self.output(f"./database/" + folder_name + "/bill.pdf");
+		

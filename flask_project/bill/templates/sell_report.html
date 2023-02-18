@@ -39,7 +39,7 @@
 {% for customer in CUSTOMERS %}
 {% set customer_id = "#" + customer %}
 <div>
-	<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target= {{ customer_id }} aria-expanded="false" aria-controls={{ customer }}>{{ customer }}</button>
+	<button class="btn mybtn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target=".multi-collapse" aria-expanded="false" aria-controls={{ customer }}>{{ customer }}</button>
 </div>
 <div class="container-md collapse multi-collapse" id = {{ customer }}>
 	{% for BILLS in ALL_BILLS[customer] %}
@@ -57,7 +57,25 @@
 </div>
 {% endfor %}
 <script>
-	let btn = document.getElementsByClassName("btn");
+	let btns = document.getElementsByClassName("mybtn");
 	let TARGET = "";
+	for(var i=0; i<btns.length; i++){
+		TARGET += btns[i].innerHTML + " ";
+	}
+	for(var i=0; i<btns.length; i++){
+		btns[i].setAttribute("aria-controls",TARGET);
+	}
+	function myCollapse(thisBtn){
+		for(var i=0; i<btns.length; i++){
+			 document.getElementById(btns[i].innerHTML).setAttribute("class", "container-md collapse multi-collapse");
+			btns[i].setAttribute("aria-expanded", "false");
+		}
+		document.getElementById(thisBtn.innerHTML).setAttribute("class", "container-md collapse multi-collapse show");
+		thisBtn.setAttribute("aria-expanded", "true");
+		console.log(thisBtn.innerHTML);
+	}
+	for(var i=0; i<btns.length; i++){
+		btns[i].addEventListener("click", myCollapse(btns[i]));
+	}
 </script>
 {% endblock %}

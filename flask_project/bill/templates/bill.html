@@ -48,6 +48,7 @@
 		<h1>Price</h1>
 		<div class="form-group d-flex flex-row-reverse mb-3">
 				<select class="form-select" name="customerName" style="width: 200px;" aria-label="Select Customer">
+					<option value=""></option>
 					{% for customer in customers %}
 					<option value={{ customer }}> {{ customer }} </option>
 					{% endfor %}
