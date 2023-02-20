@@ -24,17 +24,16 @@
 {% endblock %}
 
 {% block body %}
-
 {% set sell_report_link = "/sell_report?user=" + user %}
-{% set create_bill_link = "/bill?user=" + user %}
-<div class="links">
-	<a href= {{ sell_report_link }}>sell report</a>
-	<a href= {{ create_bill_link }} > make a bill </a>
-</div>
-{% set TARGET = "" %}
-{% for customer in CUSTOMERS %}
-{% set TARGET = TARGET + customer + " " %}
-{% endfor %}
+{% set bill_page_link = "/bill?user=" + user %}
+{% set stock_link = "/stock?user=" + user %}
+{% set add_customer_link = "/addCustomer?user=" + user%}
+<div class="links">                         
+    <a href= {{ sell_report_link }}>sell report</a>
+    <a href= {{ bill_page_link }} > make a bill </a>
+    <a href= {{ stock_link }} > stock </a>  
+    <a href= {{ add_customer_link }}>Customer</a>
+</div>                         
 
 {% for customer in CUSTOMERS %}
 {% set customer_id = "#" + customer %}

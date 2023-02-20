@@ -1,24 +1,26 @@
 <html>
-  <head>
-	<style>
+	<head>
+		<style>
 form{
-  display: grid;
-  border: 1px solid black;
-  padding: 20px;
-  grid-template-columns: auto auto;
+	display: grid;
+	border: 1px solid black;
+	padding: 20px;
+	grid-template-columns: auto auto;
 }
-	</style>
-  </head>
-  <body>
-	<form action="http://127.0.0.1:5000/login" method="post">
-	  <label for="name"> Name : </label>
-	  <input type="text" name="user-name" autofocus placeholder="name">
-	  <label for="password"> Password  : </label>
-	  <input type="password" placeholder="paswword" name="password" pattern="[a-z,0-9]{4}">
-	  <a href="http://127.0.0.1:5000/register"> not registered yet..? </a>
-	  <button type="submit" value="submit"></button>
-	</form>
+		</style>
+	</head>
+	<body>
+		<div class="container-md bg-info">
+			<form action="http://127.0.0.1:5000/login" method="post">
+				<label for="name"> Name : </label>
+				<input type="text" name="user-name" autofocus placeholder="name">
+				<label for="password"> Password  : </label>
+				<input type="password" placeholder="paswword" name="password" pattern="[a-z,0-9]{4}">
+				<a href="http://127.0.0.1:5000/register"> not registered yet..? </a>
+				<button type="submit" value="submit"></button>
+			</form>
+		</div>
 
-  </body>
+	</body>
 </html>
 

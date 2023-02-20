@@ -6,7 +6,7 @@
   padding: 0px;
   box-sizing: border-box;
 }
-	button{
+button{
 	  grid-area: auto/ 1/ auto/ span 3;
 	  height: 40px;
 	  width: 100px;
@@ -21,8 +21,7 @@
 {% set sell_report_link = "/sell_report?user=" + user %}
 {% set bill_page_link = "/bill?user=" + user %}
 {% set stock_link = "/stock?user=" + user %}
-{% set create_bill_link = "http://127.0.0.1:5000/create_bill?user=" + user %}
-{% set add_customer_link = "/addCustomer?user=" + user %}
+{% set add_customer_link = "/addCustomer?user=" + user%}
 <div class="links">
 	<a href= {{ sell_report_link }}>sell report</a>
 	<a href= {{ bill_page_link }} > make a bill </a>
@@ -32,9 +31,9 @@
 <template id="template">
 	<div class="form-group mb-2">
 		<div class="row">
-			<input class="col-8" type=text name="item" id="1">
-			<input class="col-2" type="number" name="quntaty" id="2"> 
-			<input class="col-2 add-row" type="number" name="price" id="3">
+			<input class="col-8" type=text name="item" id="1" placeholder="item-name">
+			<input class="col-2" type="number" name="quntaty" id="2" placeholder="quantaty"> 
+			<input class="col-2 add-row" type="number" name="price" id="3" placeholder="rate">
 		</div>
 	</div>
 
@@ -43,9 +42,6 @@
 
 <div class="container-sm">
 	<form class="container-md" id="form" action={{ create_bill_link }} method="post">
-		<h1>Item - name</h1>
-		<h1>Quntaty</h1>
-		<h1>Price</h1>
 		<div class="form-group d-flex flex-row-reverse mb-3">
 				<select class="form-select" name="customerName" style="width: 200px;" aria-label="Select Customer">
 					<option value=""></option>
@@ -56,9 +52,9 @@
 		</div>
 		<div class="form-group mb-2">
 			<div class="row">
-				<input type="text" class="col-8 " name="item-1">
-				<input type="number" class="col-2" name="quntaty-1"> 
-				<input id="p" type="number" class="col-2 add-row" name="price-1">
+				<input type="text" class="col-8 " name="item-1" placeholder="item-name">
+				<input type="number" class="col-2" name="quntaty-1" placeholder="quantaty"> 
+				<input id="p" type="number" class="col-2 add-row" name="price-1" placeholder="rate">
 			</div>
 		</div>
 		<button type="submit" id="btn-submit" value="submit">create bill</button>

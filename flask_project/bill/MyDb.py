@@ -57,3 +57,17 @@ class MyDatabase:
         bills[ cName ] = [];
         with open(self.__user_directory + "/bill_data.json", 'w') as f:
             json.dump(bills, f, indent=4);
+
+    def addCustomer(self, cName, address, a):
+        cNameWithoutSpaces = ("").join(cName.split(" "));
+        customerDirectory = self.__user_directory + "/" + cNameWithoutSpaces;
+        mkdir(customerDirectory);
+        with open(customerDirectory + "/bill_data.json", 'w') as f:
+            json.dump({},f, indent=4);
+
+        with open(customerDirectory + "/self_details.json", 'w') as f:
+            json.dump({"address" : address}, f, indent=4);
+
+
+my = MyDatabase("JENISH")
+my.addCustomer("Dave Rakshit", {"hello":5}, 0);

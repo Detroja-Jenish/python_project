@@ -135,3 +135,6 @@ def addCustomerToDatabase():
 
     db.addCustomer(cName, [ cName, Building_no, street, landMark, zipCode, state] );
     return redirect("addCustomer?user="+user_name)
+
+if __name__ == '__main__':
+    app.run(host = '192.168.233.26' );
