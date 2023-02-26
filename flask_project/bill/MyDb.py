@@ -58,7 +58,8 @@ class MyDatabase:
         with open(self.__user_directory + "/bill_data.json", 'w') as f:
             json.dump(bills, f, indent=4);
 
-    def addCustomer(self, cName, address, a):
+#------------------------------------trial---------------------------------------------
+    def addCustomer2(self, cName, address):
         cNameWithoutSpaces = ("").join(cName.split(" "));
         customerDirectory = self.__user_directory + "/" + cNameWithoutSpaces;
         mkdir(customerDirectory);
@@ -68,6 +69,22 @@ class MyDatabase:
         with open(customerDirectory + "/self_details.json", 'w') as f:
             json.dump({"address" : address}, f, indent=4);
 
+        with open(self.__user_directory + "/customerDetails.json", 'r') as f:
+             allCustomer = json.load(f);
 
-my = MyDatabase("JENISH")
-my.addCustomer("Dave Rakshit", {"hello":5}, 0);
+        allCustomer[cName] = "";
+        with open(self.__user_directory + "/customerDetails.json", 'w') as f:
+            json.dump(allCustomer, f, indent=4);
+
+    def updateBillData2(self, add_bill, cName):
+        cNameWithoutSpaces = ("").join(cName.split(" "));
+        customerDirectory = self.__user_directory + "/" + cNameWithoutSpaces;
+        with open(customerDirectory + "/bill_data.json", 'r') as f:
+            all_bills = json.load(f);
+
+        billNos = all_bills.keys();
+        maxBillNo = len(billNos);
+
+        all_bills[maxBillNo] = add_bill;
+        with open(customerDirectory + "/bill_data.json", 'w') as f:
+            json.dump(all_bills, f, indent=4);

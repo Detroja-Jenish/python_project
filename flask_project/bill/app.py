@@ -93,7 +93,7 @@ def create_bill():
     customerName = request.form.get("customerName");
     if(customerName == None or customerName == ""):
         customerName = "Anonymous";
-    db.updateBillData(this_bill, customerName);
+    db.updateBillData2(this_bill, customerName);
     cb = mypdf();
     cb.write(this_bill, user_name.upper());
 
@@ -133,7 +133,7 @@ def addCustomerToDatabase():
     zipCode = request.form.get("zipCode")
     state = request.form.get("state")
 
-    db.addCustomer(cName, [ cName, Building_no, street, landMark, zipCode, state] );
+    db.addCustomer2(cName, [ cName, Building_no, street, landMark, zipCode, state] );
     return redirect("addCustomer?user="+user_name)
 
 if __name__ == '__main__':
