@@ -136,5 +136,9 @@ def addCustomerToDatabase():
     db.addCustomer2(cName, [ cName, Building_no, street, landMark, zipCode, state] );
     return redirect("addCustomer?user="+user_name)
 
+@app.route("/addProduct")
+def addProduct():
+    return render_template("stock.html");
+
 if __name__ == '__main__':
     app.run(host = '192.168.233.26' );

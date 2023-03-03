@@ -35,18 +35,18 @@
 <script>
 	var priceField = document.getElementsByClassName("priceField");
 	console.log(priceField);
+	console.log(priceField.length);
 	var form = document.getElementById("product-form");
 
-		console.log(priceField);
-	console.log("helooo hi");
+	console.log(priceField);
 	function addNewRow(){
-		 var formTemplate = document.getElementById("form-template");
-		console.log("heloo");
+		var formTemplate = document.getElementById("form-template");
+		console.log("i am in function");
 		clonedFormTemplate = formTemplate.content.cloneNode(true);
-		console.log(priceField);
+		form.appendChild(clonedFormTemplate);
+		console.log(priceField.length);
 		priceField[priceField.length - 1].addEventListener("input", addNewRow);
 		priceField[priceField.length - 2].removeEventListener("input", addNewRow);
-		form.appendChild(clonedFormTemplate);
 	}
 	priceField[0].addEventListener("input", addNewRow);//
 </script>
