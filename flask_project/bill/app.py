@@ -138,7 +138,11 @@ def addCustomerToDatabase():
 
 @app.route("/addProduct")
 def addProduct():
-    return render_template("stock.html");
-
+    user_name = request.args.get("user")
+    return render_template("stock.html", user=user_name);
+@app.route("/abc", methods=["post"])
+def abc():
+    print((request.form.keys()))
+    return "0";
 if __name__ == '__main__':
     app.run(host = '192.168.233.26' );
