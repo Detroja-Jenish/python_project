@@ -55,7 +55,9 @@ def signup():
 def bill_form():
     user_name = request.args.get("user");
     db = MyDatabase( user_name );
-    return render_template("bill.html", user=user_name, customers = db.getOnlyCustomerName());
+    productList = db.getProductList();
+    print(productList)
+    return render_template("bill.html", user=user_name, customers = db.getOnlyCustomerName(), PRODUCTS=productList.keys());
 
 @app.route("/stock", methods=["GET", "POST"])
 def stock():
@@ -93,7 +95,7 @@ def create_bill():
     customerName = request.form.get("customerName");
     if(customerName == None or customerName == ""):
         customerName = "Anonymous";
-    db.updateBillData2(this_bill, customerName);
+    db.updateBillData(this_bill, customerName);
     cb = mypdf();
     cb.write(this_bill, user_name.upper());
 
@@ -133,16 +135,28 @@ def addCustomerToDatabase():
     zipCode = request.form.get("zipCode")
     state = request.form.get("state")
 
-    db.addCustomer2(cName, [ cName, Building_no, street, landMark, zipCode, state] );
+    db.addCustomer(cName, [ cName, Building_no, street, landMark, zipCode, state] );
     return redirect("addCustomer?user="+user_name)
 
 @app.route("/addProduct")
 def addProduct():
     user_name = request.args.get("user")
     return render_template("stock.html", user=user_name);
-@app.route("/abc", methods=["post"])
-def abc():
+@app.route("/addProductList", methods=["get","post"])
+def addProductList():
+    user_name = request.args.get("user");
+    db = MyDatabase(user_name);
     print((request.form.keys()))
+    productList = db.getProductList();
+    #productList = {};
+    values = request.form.values();
+    for i in range(int(len(request.form)/2)):
+        print( request.form.get("item-" + str(i)) + "  =  " + request.form.get("price-" + str(i)) ) ;
+        if(request.form.get("item-" + str(i)) != "null" or request.form.get("price-" + str(i)) != "null" or request.form.get("item-" + str(i)) != "" or request.form.get("price-" + str(i)) != ""):
+            productList[ request.form.get("item-"+str(i))] =  request.form.get("price-"+str(i));
+
+    db.addProductList(productList);
+
     return "0";
 if __name__ == '__main__':
     app.run(host = '192.168.233.26' );

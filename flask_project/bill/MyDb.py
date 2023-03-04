@@ -24,6 +24,11 @@ class MyDatabase:
         with open(self.__user_directory + "/customerDetails.json", 'w') as f:
             json.dump({}, f, indent=4);
 
+        with open(self.__user_directory + "/productList.json", 'w') as f:
+            json.dump({}, f, indent=4);
+
+        self.addCustomer("Anonymous",{});
+
     def getOnlyCustomerName(self):
         return self.getAllCustomersDetails().keys();
 
@@ -32,12 +37,18 @@ class MyDatabase:
             bills = json.load(f);
         return bills;
     
-    def updateBillData(self, add_bill, customerName):
-        all_bills = self.getBills();
-        all_bills[ customerName ].append( add_bill );
-        with open(self.__user_directory + "/bill_data.json", 'w') as f:
+    def updateBillData(self, add_bill, cName):
+        cNameWithoutSpaces = ("").join(cName.split(" "));
+        customerDirectory = self.__user_directory + "/" + cNameWithoutSpaces;
+        with open(customerDirectory + "/bill_data.json", 'r') as f:
+            all_bills = json.load(f);
+
+        billNos = all_bills.keys();
+        maxBillNo = len(billNos);
+
+        all_bills[maxBillNo] = add_bill;
+        with open(customerDirectory + "/bill_data.json", 'w') as f:
             json.dump(all_bills, f, indent=4);
-            print("file saved");
 
     def getCustomers(self):
         return self.getBills().keys();
@@ -48,18 +59,6 @@ class MyDatabase:
         return details;
 
     def addCustomer(self, cName, address):
-        all_customers = self.getAllCustomersDetails();
-        all_customers[ cName ] = address;
-        with open(self.__user_directory + "/customerDetails.json", 'w') as f:
-            json.dump(all_customers, f, indent=4);
-
-        bills = self.getBills();
-        bills[ cName ] = [];
-        with open(self.__user_directory + "/bill_data.json", 'w') as f:
-            json.dump(bills, f, indent=4);
-
-#------------------------------------trial---------------------------------------------
-    def addCustomer2(self, cName, address):
         cNameWithoutSpaces = ("").join(cName.split(" "));
         customerDirectory = self.__user_directory + "/" + cNameWithoutSpaces;
         mkdir(customerDirectory);
@@ -76,15 +75,37 @@ class MyDatabase:
         with open(self.__user_directory + "/customerDetails.json", 'w') as f:
             json.dump(allCustomer, f, indent=4);
 
-    def updateBillData2(self, add_bill, cName):
-        cNameWithoutSpaces = ("").join(cName.split(" "));
-        customerDirectory = self.__user_directory + "/" + cNameWithoutSpaces;
-        with open(customerDirectory + "/bill_data.json", 'r') as f:
-            all_bills = json.load(f);
+    def getProductList(self):
+        with open(self.__user_directory + "/productList.json", 'r') as f:
+            a= json.load(f);
+        return a;
+    
+    def addProductList(self, products):
+        try:
+            with open(self.__user_directory + "/productList.json", 'w') as f:
+                json.dump(products,f, indent=4);
+        except:
+            print(type(products));
+            print(products);
+        
 
-        billNos = all_bills.keys();
-        maxBillNo = len(billNos);
 
-        all_bills[maxBillNo] = add_bill;
-        with open(customerDirectory + "/bill_data.json", 'w') as f:
-            json.dump(all_bills, f, indent=4);
+#----------------------------------previous tries----------------------------------
+
+#    def updateBillData(self, add_bill, customerName):
+#        all_bills = self.getBills();
+#        all_bills[ customerName ].append( add_bill );
+#        with open(self.__user_directory + "/bill_data.json", 'w') as f:
+#            json.dump(all_bills, f, indent=4);
+#            print("file saved");
+#
+#    def addCustomer(self, cName, address):
+#        all_customers = self.getAllCustomersDetails();
+#        all_customers[ cName ] = address;
+#        with open(self.__user_directory + "/customerDetails.json", 'w') as f:
+#            json.dump(all_customers, f, indent=4);
+#
+#        bills = self.getBills();
+#        bills[ cName ] = [];
+#        with open(self.__user_directory + "/bill_data.json", 'w') as f:
+#            json.dump(bills, f, indent=4);

@@ -34,7 +34,11 @@ button{
 <template id="template">
 	<div class="form-group mb-2">
 		<div class="row">
-			<input class="col-8" type=text name="item" id="1" placeholder="item-name">
+			<select class="col-8" type=text name="item" id="1" placeholder="item-name">
+				{% for product in PRODUCTS %}
+				<option value={{ product }}> {{product}} </option>
+				{% endfor %}
+			</select>
 			<input class="col-2" type="number" name="quntaty" id="2" placeholder="quantaty"> 
 			<input class="col-2 add-row" type="number" name="price" id="3" placeholder="rate">
 		</div>
@@ -55,7 +59,11 @@ button{
 		</div>
 		<div class="form-group mb-2">
 			<div class="row">
-				<input type="text" class="col-8 " name="item-1" placeholder="item-name">
+				<select type="text" class="col-8 " name="item-1" placeholder="item-name">
+					{% for product in PRODUCTS %}
+					<option value={{ product }}> {{product}} </option>
+					{% endfor %}
+				</select>
 				<input type="number" class="col-2" name="quntaty-1" placeholder="quantaty"> 
 				<input id="p" type="number" class="col-2 add-row" name="price-1" placeholder="rate">
 			</div>
