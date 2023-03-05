@@ -151,11 +151,18 @@ def addProductList():
     #productList = {};
     values = request.form.values();
     for i in range(int(len(request.form)/2)):
-        print( request.form.get("item-" + str(i)) + "  =  " + request.form.get("price-" + str(i)) ) ;
         if(request.form.get("item-" + str(i)) != "null" or request.form.get("price-" + str(i)) != "null" or request.form.get("item-" + str(i)) != "" or request.form.get("price-" + str(i)) != ""):
             productList[ request.form.get("item-"+str(i))] =  request.form.get("price-"+str(i));
 
     db.addProductList(productList);
+    return redirect("/addProduct?user=" + user_name)
+
+@app.route("/fetchPrice")
+def fetchPrice():
+    db = MyDatabase("darshal");
+    queryProduct = request.args.get("product");
+    productList = db.getProductList();
+    return productList[ queryProduct ]
 
     return "0";
 if __name__ == '__main__':

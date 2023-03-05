@@ -76,7 +76,6 @@ button{
 	let form = document.getElementById("form");
 	let template = document.getElementById("template");
 	let add_row = document.getElementsByClassName("add-row");
-	console.log(add_row);
 	let count = 2;
 
 	function add(){
@@ -97,14 +96,32 @@ button{
 		form.appendChild(cloned);
 
 		count+=1;
-		console.log("hi");
 
-
-	add_row[add_row.length - 1].addEventListener("input", add);
+		add_row[add_row.length - 1].addEventListener("input", add);
 		add_row[add_row.length - 2].removeEventListener("input", add);
+		item.addEventListener("input", (e) => {
+			console.log(item.value)
+			fetch("/fetchPrice?product="+item.value)
+				.then(function(response){
+					if(response.ok){
+						console.log(response);
+						const data =  response.text();
+						console.log(data);
+						price.value = response;
+					}
+				})
+				.catch(function(error){
+					console.error(error);
+				})
+			
+		});
 		console.log(add_row.length);
 	}
 
 	add_row[add_row.length - 1].addEventListener("input", add);
+	
+	function fetchPrice( e ){
+		console.log(e.value);
+	}
 </script>
 {% endblock %}
