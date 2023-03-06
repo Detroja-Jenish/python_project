@@ -99,29 +99,43 @@ button{
 
 		add_row[add_row.length - 1].addEventListener("input", add);
 		add_row[add_row.length - 2].removeEventListener("input", add);
-		item.addEventListener("input", (e) => {
-			console.log(item.value)
-			fetch("/fetchPrice?product="+item.value)
-				.then(function(response){
-					if(response.ok){
-						console.log(response);
-						const data =  response.text();
-						console.log(data);
-						price.value = response;
-					}
-				})
-				.catch(function(error){
-					console.error(error);
-				})
-			
+		//item.addEventListener("input", getPrice(item.value, price));
+		item.addEventListener("input", function(item.value,price){
+
+			//const apiURL = "https://api.quotable.io/random";
+			const apiURL = "http://127.0.0.1:5000/fetchPrice?product=" + productName
+			try {
+				console.log("copied from krisha");
+				const response = await fetch(apiURL);
+				const data = await response.json();
+				const price = data.price;
+				console.log(price);
+				priceField.value = price;
+				console.log(data);
+			} catch (error) {
+				console.log(error);
+			}
 		});
 		console.log(add_row.length);
 	}
 
 	add_row[add_row.length - 1].addEventListener("input", add);
 	
-	function fetchPrice( e ){
-		console.log(e.value);
+	async function getPrice(productName, priceField) {
+		//const apiURL = "https://api.quotable.io/random";
+		const apiURL = "http://127.0.0.1:5000/fetchPrice?product=" + productName
+		try {
+			console.log("copied from krisha");
+			const response = await fetch(apiURL);
+			const data = await response.json();
+			const price = data.price;
+			console.log(price);
+			priceField.value = price;
+			console.log(data);
+		} catch (error) {
+			console.log(error);
+		}
 	}
+
 </script>
 {% endblock %}

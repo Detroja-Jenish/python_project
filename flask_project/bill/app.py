@@ -162,7 +162,8 @@ def fetchPrice():
     db = MyDatabase("darshal");
     queryProduct = request.args.get("product");
     productList = db.getProductList();
-    return productList[ queryProduct ]
+    #return json.dumps({"name" : "jenish"})
+    return json.dumps({"price" : productList[ queryProduct ]})
 
     return "0";
 if __name__ == '__main__':
