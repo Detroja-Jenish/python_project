@@ -82,13 +82,18 @@ def create_bill():
     db = MyDatabase(user_name);
     this_bill = [];
 
-    for i in range(1,math.floor(len(request.form)/3)+1):
+    for i in range(1,math.floor(len(request.form)/3)):
         
         if( request.form.get("quntaty-" + str(i))!= ""):
             item =  request.form.get("item-" + str(i))
-            quntaty = request.form.get("quntaty-" + str(i))
+            quntaty = request.form.get("quantaty-" + str(i))
             price = request.form.get("price-" +str(i))
-            amount = int(price)*int(quntaty);
+            try:
+                amount = int(price)*int(quntaty);
+                print("success")
+            except:
+                print("error");
+                amount = 0;
         
             this_bill.append({"item" : item, "quntaty" : quntaty, "price" : price, "amount" : str(amount)})
 
@@ -159,7 +164,7 @@ def addProductList():
 
 @app.route("/fetchPrice")
 def fetchPrice():
-    db = MyDatabase("darshal");
+    db = MyDatabase("krishna");
     queryProduct = request.args.get("product");
     productList = db.getProductList();
     #return json.dumps({"name" : "jenish"})

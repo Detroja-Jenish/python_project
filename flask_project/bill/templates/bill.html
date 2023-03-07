@@ -34,13 +34,15 @@ button{
 <template id="template">
 	<div class="form-group mb-2">
 		<div class="row">
-			<select class="col-8" type=text name="item" id="1" placeholder="item-name">
+			<select class="col-8" type=text name="item" id="itemField" placeholder="item-name">
 				{% for product in PRODUCTS %}
-				<option value={{ product }}> {{product}} </option>
+				{% set a = product.split(" ") %}
+				{% set productValue  = a|join("+") %}
+				<option value={{ productValue }}> {{product}} </option>
 				{% endfor %}
 			</select>
-			<input class="col-2" type="number" name="quntaty" id="2" placeholder="quantaty"> 
-			<input class="col-2 add-row" type="number" name="price" id="3" placeholder="rate">
+			<input type="number" class="col-2 add-row" name="quantaty" id="quantatyField" placeholder="quantaty"> 
+			<input type="number" class="col-2" name="price" id="priceField" placeholder="rate">
 		</div>
 	</div>
 
@@ -50,7 +52,7 @@ button{
 <div class="container-sm">
 	<form class="container-md" id="form" action={{ create_bill_link }} method="post">
 		<div class="form-group d-flex flex-row-reverse mb-3">
-				<select class="form-select" name="customerName" style="width: 200px;" aria-label="Select Customer">
+				<select class="form-select"  name="customerName" style="width: 200px;" aria-label="Select Customer">
 					<option value=""></option>
 					{% for customer in customers %}
 					<option value={{ customer }}> {{ customer }} </option>
@@ -59,13 +61,15 @@ button{
 		</div>
 		<div class="form-group mb-2">
 			<div class="row">
-				<select type="text" class="col-8 " name="item-1" placeholder="item-name">
+				<select type="text" id="itemField" class="col-8 " name="item-1" placeholder="item-name">
 					{% for product in PRODUCTS %}
-					<option value={{ product }}> {{product}} </option>
+					{% set a = product.split(" ") %}
+					{% set productValue  = a|join("+") %}
+					<option value={{ productValue }}> {{product}} </option>
 					{% endfor %}
 				</select>
-				<input type="number" class="col-2" name="quntaty-1" placeholder="quantaty"> 
-				<input id="p" type="number" class="col-2 add-row" name="price-1" placeholder="rate">
+				<input type="number" id="quantatyField"  class="col-2 add-row" name="quantaty-1" placeholder="quantaty"> 
+				<input type="number" id="priceField" class="col-2 " name="price-1" placeholder="rate">
 			</div>
 		</div>
 		<button type="submit" id="btn-submit" value="submit">create bill</button>
@@ -76,6 +80,8 @@ button{
 	let form = document.getElementById("form");
 	let template = document.getElementById("template");
 	let add_row = document.getElementsByClassName("add-row");
+	let priceField1 = document.getElementById("priceField");
+	let itemField1 = document.getElementById("itemField");
 	let count = 2;
 
 	function add(){
@@ -84,14 +90,14 @@ button{
 		form.removeChild(clear_btn);
 		node = document.getElementById("template");
 		cloned = node.content.cloneNode(true);
-		let item = cloned.getElementById("1");
-		let quntaty = cloned.getElementById("2");
-		let price = cloned.getElementById("3");
+		let item = cloned.getElementById("itemField");
+		let quantaty = cloned.getElementById("quantatyField");
+		let price = cloned.getElementById("priceField");
 
 		let str = count.toString();
 
 		item.setAttribute("name", ("item-"+str));
-		quntaty.setAttribute("name", ("quntaty-"+str));
+		quantaty.setAttribute("name", ("quantaty-"+str));
 		price.setAttribute("name", ("price-"+str));
 		form.appendChild(cloned);
 
@@ -99,27 +105,12 @@ button{
 
 		add_row[add_row.length - 1].addEventListener("input", add);
 		add_row[add_row.length - 2].removeEventListener("input", add);
-		//item.addEventListener("input", getPrice(item.value, price));
-		item.addEventListener("input", function(item.value,price){
-
-			//const apiURL = "https://api.quotable.io/random";
-			const apiURL = "http://127.0.0.1:5000/fetchPrice?product=" + productName
-			try {
-				console.log("copied from krisha");
-				const response = await fetch(apiURL);
-				const data = await response.json();
-				const price = data.price;
-				console.log(price);
-				priceField.value = price;
-				console.log(data);
-			} catch (error) {
-				console.log(error);
-			}
+		getPrice(item.value,price)
+		item.addEventListener("input", function(){
+			getPrice(item.value,price)
 		});
-		console.log(add_row.length);
 	}
 
-	add_row[add_row.length - 1].addEventListener("input", add);
 	
 	async function getPrice(productName, priceField) {
 		//const apiURL = "https://api.quotable.io/random";
@@ -129,13 +120,16 @@ button{
 			const response = await fetch(apiURL);
 			const data = await response.json();
 			const price = data.price;
-			console.log(price);
 			priceField.value = price;
-			console.log(data);
 		} catch (error) {
 			console.log(error);
 		}
 	}
 
+	add_row[add_row.length - 1].addEventListener("input", add);
+	getPrice(itemField.value, priceField);
+	itemField.addEventListener("input", function(){
+		getPrice(itemField.value, priceField);
+	})
 </script>
 {% endblock %}
