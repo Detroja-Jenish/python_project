@@ -17,7 +17,7 @@ button{
 </style>
 {% endblock %}
 {% block body %}
-
+<p id="userName">{{ user }}</p>
 {% set sell_report_link = "/sell_report?user=" + user %}
 {% set bill_page_link = "/bill?user=" + user %}
 {% set stock_link = "/stock?user=" + user %}
@@ -77,6 +77,8 @@ button{
 </div>
 
 <script>
+	let userName = document.getElementById("userName").innerHTML;
+	console.log(name)
 	let form = document.getElementById("form");
 	let template = document.getElementById("template");
 	let add_row = document.getElementsByClassName("add-row");
@@ -114,7 +116,7 @@ button{
 	
 	async function getPrice(productName, priceField) {
 		//const apiURL = "https://api.quotable.io/random";
-		const apiURL = "http://127.0.0.1:5000/fetchPrice?product=" + productName
+		const apiURL = "http://127.0.0.1:5000/fetchPrice?product=" + productName +"&user=" + userName
 		try {
 			console.log("copied from krisha");
 			const response = await fetch(apiURL);

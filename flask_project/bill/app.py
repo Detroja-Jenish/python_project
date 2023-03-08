@@ -164,7 +164,8 @@ def addProductList():
 
 @app.route("/fetchPrice")
 def fetchPrice():
-    db = MyDatabase("krishna");
+    user_name = request.args.get("user");
+    db = MyDatabase(user_name);
     queryProduct = request.args.get("product");
     productList = db.getProductList();
     #return json.dumps({"name" : "jenish"})
