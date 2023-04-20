@@ -1,0 +1,99 @@
+{% extends "layout.html" %}
+{% block body %}
+{% set bill_page_link = "/bill?user=" + user %}
+{% set stock_link = "/stock?user=" + user %}
+{% set add_customer_link = "/addCustomer?user=" + user%}
+{% set add_product_link = "/addProduct?user=" + user %}
+{% set create_bill_link = "/create_bill?user=" + user %}
+{%set sell_report_link = "/sell_report?user=" + user %}
+{% set action_link = "/addProductList?user=" + user %}
+<div class="links">
+	<a href= {{ sell_report_link }}>sell report</a>
+	<a href= {{ bill_page_link }} > make a bill </a>
+	<a href= {{ stock_link }} > stock </a>
+	<a href= {{ add_product_link }} > addProduct </a>
+	<a href= {{ add_customer_link }}>Customer</a>
+</div>
+<div class="container-md">
+	<form id="product-form" method="post" action={{ action_link}}>
+		<div class="row">
+			<h3 class="col-6 border"> Product Name </h3>
+			<h3 class="col-3 border"> Price </h3>
+		</div>
+		<div class="form-group">
+			<div class="row">
+				<div class="col-6 data">
+					<input type="text" class="form-control " id="itemField" name="item-0">
+				</div>
+				<div class="col-3 data">
+					<input type="number" class="form-control priceField"id="priceField" name="price-0">
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-3">
+				<input type="submit">
+			</div>
+		</div>
+	</form>
+				<button id="myBtn">mybtn</button>
+</div>
+
+<template id="form-template">
+
+	<div class="row">
+		<div class="col-6 data">
+			<input type="text" class="form-control " id="itemField" name="item">
+		</div>
+		<div class="col-3 data">
+			<input type="number" class="form-control priceField" id="priceField"name="price">
+		</div>
+	</div>
+</template>
+
+<script>
+	var priceField = document.getElementsByClassName("priceField");
+	console.log(priceField);
+	console.log(priceField.length);
+	var form = document.getElementById("product-form");
+	var myBtn = document.getElementById("myBtn");
+	var i=1;
+	console.log(priceField);
+	function addNewRow(){
+		var formTemplate = document.getElementById("form-template");
+		console.log("i am in function");
+		clonedFormTemplate = formTemplate.content.cloneNode(true);
+		clonedFormTemplate.getElementById("itemField").setAttribute("name","item-"+i);
+		clonedFormTemplate.getElementById("priceField").setAttribute("name","price-"+i);
+		i++;
+		form.appendChild(clonedFormTemplate);
+		console.log(priceField.length);
+		priceField[priceField.length - 1].addEventListener("input", addNewRow);
+		priceField[priceField.length - 2].removeEventListener("input", addNewRow);
+	}
+	priceField[0].addEventListener("input", addNewRow);//
+	function formatData(){
+		var ans = [];
+		var allInputs = document.getElementsByClassName("data");
+		for(let i = 0; i < allInputs.length-2; i+=2){
+			let itemField = allInputs[i].firstElementChild.value;
+			let priceField = allInputs[i+1].firstElementChild.value;
+			ans.push({"itemield" : itemField , "priceField" : priceField});
+		}
+		console.log(ans);
+		fetch('/abc', {
+			method : 'post',
+			body : JSON.strigify({"hello" : "i am Jenish"}),
+			headers : {'content-type' : 'application/json'}
+		}).then(function (response){
+			return response.text();
+		}).then(function(text){
+			console.log(text);
+		}).catch( function(error){
+			console.error(error);
+		});
+	}
+
+</script>
+
+{% endblock %}

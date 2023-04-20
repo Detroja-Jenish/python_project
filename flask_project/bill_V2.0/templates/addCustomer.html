@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% block style %}
+{% endblock %}
+{% block body %}
+{% set add_customer_link = "/addCustomerToDatabase?user=" + user %}
+{% set sell_report_link = "/sell_report?user=" + user %}
+{% set bill_page_link = "/bill?user=" + user %}
+{% set stock_link = "/stock?user=" + user %}
+{% set add_customer_link = "/addCustomerToDatabase?user=" + user%}
+<div class="links">
+	<a href= {{ sell_report_link }}>sell report</a>
+	<a href= {{ bill_page_link }} > make a bill </a>
+	<a href= {{ stock_link }} > stock </a>
+	<a href= {{ add_customer_link }}>Customer</a>
+</div>                         
+<div class="mt-5 container-md">
+	<form action={{ add_customer_link }} method="post">
+		<div class="form-group">
+			<input type="text" name="companyName" class="form-controll" placeholder="Comany Name"/>" 
+		</div>
+		<div class="form-group">
+			<input type="text" name="building-no" placeholder="Building-no" class="form-controll">
+		</div>
+		<div class="form-group">
+			<input type="text" name="street" placeholder="Street" class="form-controll">
+		</div>
+		<div class="form-group">
+			<input type="text" name="landMark" placeholder="land Mark" class="form-controll">
+		</div>
+		<div class="form-group">
+			<input type="text" name="zipCode" placeholder="Zip code" class="form-controll">
+		</div>
+		<div class="form-group">
+			<input type="text" name="state" placeholder="state" class="form-controll">
+		</div>
+		<button type="submit">
+
+	</form>
+</div>
+{% endblock %}

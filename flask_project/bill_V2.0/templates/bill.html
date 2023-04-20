@@ -1,0 +1,137 @@
+{% extends "layout.html" %}
+{% block style %}
+<style>
+  *{
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+button{
+	  grid-area: auto/ 1/ auto/ span 3;
+	  height: 40px;
+	  width: 100px;
+	  margin: auto;
+	  border-radius: 20px;
+	  border: 1px solid black;
+	}
+</style>
+{% endblock %}
+{% block body %}
+<p id="userName">{{ user }}</p>
+{% set sell_report_link = "/sell_report?user=" + user %}
+{% set bill_page_link = "/bill?user=" + user %}
+{% set stock_link = "/stock?user=" + user %}
+{% set add_customer_link = "/addCustomer?user=" + user%}
+{% set add_product_link = "/addProduct?user=" + user %}
+{% set create_bill_link = "/create_bill?user=" + user %}
+<div class="links">
+	<a href= {{ sell_report_link }}>sell report</a>
+	<a href= {{ bill_page_link }} > make a bill </a>
+	<a href= {{ stock_link }} > stock </a>
+	<a href= {{ add_product_link }} > addProduct </a>
+	<a href= {{ add_customer_link }}>Customer</a>
+</div>
+<template id="template">
+	<div class="form-group mb-2">
+		<div class="row">
+			<select class="col-8" type=text name="item" id="itemField" placeholder="item-name">
+				{% for product in PRODUCTS %}
+				{% set a = product.split(" ") %}
+				{% set productValue  = a|join("+") %}
+				<option value={{ productValue }}> {{product}} </option>
+				{% endfor %}
+			</select>
+			<input type="number" class="col-2 add-row" name="quantaty" id="quantatyField" placeholder="quantaty"> 
+			<input type="number" class="col-2" name="price" id="priceField" placeholder="rate">
+		</div>
+	</div>
+
+	<button type="submit" id="btn-submit" value="submit">create bill</button>
+</template>
+
+<div class="container-sm">
+	<form class="container-md" id="form" action={{ create_bill_link }} method="post">
+		<div class="form-group d-flex flex-row-reverse mb-3">
+				<select class="form-select"  name="customerName" style="width: 200px;" aria-label="Select Customer">
+					<option value=""></option>
+					{% for customer in customers %}
+					<option value={{ customer }}> {{ customer }} </option>
+					{% endfor %}
+				</select>
+		</div>
+		<div class="form-group mb-2">
+			<div class="row">
+				<select type="text" id="itemField" class="col-8 " name="item-1" placeholder="item-name">
+					{% for product in PRODUCTS %}
+					{% set a = product.split(" ") %}
+					{% set productValue  = a|join("+") %}
+					<option value={{ productValue }}> {{product}} </option>
+					{% endfor %}
+				</select>
+				<input type="number" id="quantatyField"  class="col-2 add-row" name="quantaty-1" placeholder="quantaty"> 
+				<input type="number" id="priceField" class="col-2 " name="price-1" placeholder="rate">
+			</div>
+		</div>
+		<button type="submit" id="btn-submit" value="submit">create bill</button>
+	</form>
+</div>
+
+<script>
+	let userName = document.getElementById("userName").innerHTML;
+	console.log(name)
+	let form = document.getElementById("form");
+	let template = document.getElementById("template");
+	let add_row = document.getElementsByClassName("add-row");
+	let priceField1 = document.getElementById("priceField");
+	let itemField1 = document.getElementById("itemField");
+	let count = 2;
+
+	function add(){
+		
+		let clear_btn = document.getElementById("btn-submit");
+		form.removeChild(clear_btn);
+		node = document.getElementById("template");
+		cloned = node.content.cloneNode(true);
+		let item = cloned.getElementById("itemField");
+		let quantaty = cloned.getElementById("quantatyField");
+		let price = cloned.getElementById("priceField");
+
+		let str = count.toString();
+
+		item.setAttribute("name", ("item-"+str));
+		quantaty.setAttribute("name", ("quantaty-"+str));
+		price.setAttribute("name", ("price-"+str));
+		form.appendChild(cloned);
+
+		count+=1;
+
+		add_row[add_row.length - 1].addEventListener("input", add);
+		add_row[add_row.length - 2].removeEventListener("input", add);
+		getPrice(item.value,price)
+		item.addEventListener("input", function(){
+			getPrice(item.value,price)
+		});
+	}
+
+	
+	async function getPrice(productName, priceField) {
+		//const apiURL = "https://api.quotable.io/random";
+		const apiURL = "http://127.0.0.1:5000/fetchPrice?product=" + productName +"&user=" + userName
+		try {
+			console.log("copied from krisha");
+			const response = await fetch(apiURL);
+			const data = await response.json();
+			const price = data.price;
+			priceField.value = price;
+		} catch (error) {
+			console.log(error);
+		}
+	}
+
+	add_row[add_row.length - 1].addEventListener("input", add);
+	getPrice(itemField.value, priceField);
+	itemField.addEventListener("input", function(){
+		getPrice(itemField.value, priceField);
+	})
+</script>
+{% endblock %}

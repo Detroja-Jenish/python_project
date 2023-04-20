@@ -1,0 +1,75 @@
+{% extends "layout.html" %}
+
+{% block style %}
+  <style>
+
+	table{
+	  width: 90vw;
+	  border: 1px solid black;
+	  margin-bottom: 2vh;
+	}
+	tr:nth-child(odd){
+	  background-color: rgb(200,200,200);
+	}
+
+	td{
+	  width: 15vw;
+	  border: 1px solid black;
+	}
+	td:first-child{
+	  width: 60vw;
+	}
+
+  </style>
+{% endblock %}
+
+{% block body %}
+{% set sell_report_link = "/sell_report?user=" + user %}
+{% set bill_page_link = "/bill?user=" + user %}
+{% set stock_link = "/stock?user=" + user %}
+{% set add_customer_link = "/addCustomer?user=" + user%}
+<div class="links">                         
+    <a href= {{ sell_report_link }}>sell report</a>
+    <a href= {{ bill_page_link }} > make a bill </a>
+    <a href= {{ stock_link }} > stock </a>  
+    <a href= {{ add_customer_link }}>Customer</a>
+</div>                         
+<div class="container-md">
+	{% for customerName in DATA %}
+	<div class="container-fluid">
+		<h3> {{ customerName }} </h3>
+		{% set BILLS = DATA[ customerName ] %}
+		{% for i in BILLS %}
+		<table>
+			<tr>
+				<th colspan="4"> {{i}}</th>
+			</tr>
+			<tr>
+				<td> product </td>
+				<td> Qnt. </td>
+				<td> prrice </td>
+				<td> Amt. </td>
+			</tr>
+			<tr>
+				<td></td>
+				<td> </td>
+				<td> </td>
+				<td> </td>
+			</tr>
+			{% set BILL = BILLS[ i ] %}
+			{% for item in BILL %}
+			<tr>
+				<td> {{ item.item }} </td>
+				<td> {{ item.quntaty }} </td>
+				<td> {{ item.price }} </td>
+				<td> {{ item.amount }} </td>
+			</tr>
+			{% endfor %}
+		</table>
+		{% endfor %}
+	</div>
+	{% endfor %}
+</div>
+<script>
+</script>
+{% endblock %}
